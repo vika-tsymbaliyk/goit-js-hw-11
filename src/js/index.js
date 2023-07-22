@@ -1,13 +1,14 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import { Report } from 'notiflix/build/notiflix-report-aio';
-import { searchForm, gallery, loadMoreBtn, currentPage } from './refs.js'
+import { searchForm, gallery, loadMoreBtn} from './refs.js'
 import {fetchPhotoByQ} from './api.js'
 
 searchForm.addEventListener("submit", findPhoto);
 loadMoreBtn.addEventListener('click', onLoadMore);
 
 let searchValue;
+let currentPage = 1;
 
 function findPhoto(event) {
     event.preventDefault();
