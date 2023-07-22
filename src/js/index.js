@@ -30,11 +30,28 @@ function findPhoto(event) {
                     `We found ${data.totalHits} images`,
                     'Okay',
                 );
-                if (data.totalHits > itemsPerPage) {
-                     displayLoadMoreBtn();
-                  }
                 gallery.innerHTML = createMarkup(data);
                 const galleryBox = new SimpleLightbox('.gallery a').refresh();
+                if (data.hits.length < data.totalHits) {
+                displayLoadMoreBtn();
+                } else {
+                    Report.info(
+                    'Info',
+                    `We're sorry, but you've reached the end of search results.`,
+                    'Okay',
+                    );
+                }
+                // if (data.totalHits < itemsPerPage * currentPage) {
+                //     Report.info(
+                //     'Info',
+                //     `We're sorry, but you've reached the end of search results.`,
+                //     'Okay',
+                //     );
+                     
+                // } else {
+                //     displayLoadMoreBtn();
+                // };
+                
             }
         })
         .catch(error => {
@@ -85,6 +102,11 @@ function onLoadMore() {
             const galleryBox = new SimpleLightbox('.gallery a').refresh();
             if (gallery.children.length >= data.totalHits) {
                 hideLoadMoreBtn();
+                Report.info(
+                    'Info',
+                    `We're sorry, but you've reached the end of search results.`,
+                    'Okay',
+                    );
             }
         });
 }
