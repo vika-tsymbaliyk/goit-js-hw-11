@@ -24,16 +24,4 @@ async function fetchPhotoByQ(q)  {
   }
 }
 
-
-// async function fetchPhotoByQ(q) {
-//     return axios.get(`${apiAdress}?key=${API_KEY}&q=${q}&image_type=photo&orientation=horizontal&safesearch=true`)
-//         .then(response => {
-//             if (response.status !== 200) {
-//              throw new Error(response.statusText);
-//             }
-//             return response.data;
-//         })
-       
-// };
-
 export {fetchPhotoByQ}

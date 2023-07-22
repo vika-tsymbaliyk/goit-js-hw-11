@@ -15,18 +15,19 @@ function findPhoto(event) {
         .then(data => {
             if (data.totalHits === 0) {
                 Report.failure(
-                'Sorry,',
-                'there are no images matching your search query. Please try again.',
-                'Okay',
-            );
-            }
-                Report.success(
-                'Great!',
-                '',
-                'Okay',
+                    'Sorry,',
+                    'there are no images matching your search query. Please try again.',
+                    'Okay',
                 );
-            gallery.innerHTML = createMarkup(data)
-        })
+            } else {
+                Report.success(
+                    'Great!',
+                    `We found ${data.totalHits} images`,
+                    'Okay',
+                );
+                gallery.innerHTML = createMarkup(data)
+            }
+})
         .catch(error => {
             console.log(error);           
             gallery.innerHTML = ''
