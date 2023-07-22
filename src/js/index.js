@@ -1,7 +1,7 @@
 import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 import { Report } from 'notiflix/build/notiflix-report-aio';
-import { searchForm, gallery, loadMoreBtn} from './refs.js'
+import { searchForm, gallery, loadMoreBtn, itemsPerPage} from './refs.js'
 import {fetchPhotoByQ} from './api.js'
 
 searchForm.addEventListener("submit", findPhoto);
@@ -14,9 +14,8 @@ function findPhoto(event) {
     event.preventDefault();
     const { searchQuery } = event.currentTarget.elements;
     searchValue = searchQuery.value;
-    console.log(searchValue);
-    console.log(searchQuery.value);
     currentPage = 1;
+    hideLoadMoreBtn();
     fetchPhotoByQ(searchQuery.value, currentPage)
         .then(data => {
             if (data.totalHits === 0) {
@@ -31,7 +30,11 @@ function findPhoto(event) {
                     `We found ${data.totalHits} images`,
                     'Okay',
                 );
-                gallery.innerHTML = createMarkup(data)
+                if (data.totalHits > itemsPerPage) {
+                     displayLoadMoreBtn();
+                  }
+                gallery.innerHTML = createMarkup(data);
+                const galleryBox = new SimpleLightbox('.gallery a').refresh();
             }
         })
         .catch(error => {
@@ -39,8 +42,6 @@ function findPhoto(event) {
             gallery.innerHTML = ''
         }
     );
-    displayLoadMoreBtn();
-    galleryLightBox.refresh();
 };
 
 function createMarkup(data) {
@@ -67,19 +68,25 @@ function createMarkup(data) {
     
 };
 
-const galleryLightBox = new SimpleLightbox('.gallery a');
+function hideLoadMoreBtn() {
+  loadMoreBtn.style.display = 'none';
+}
 
 function displayLoadMoreBtn() {
   loadMoreBtn.style.display = 'block';
 }
 
 function onLoadMore() {
-    console.log(searchValue);
     currentPage += 1;
     
     fetchPhotoByQ(searchValue, currentPage)
-        .then(data => gallery.insertAdjacentHTML('beforeend', createMarkup(data)));
-    galleryLightBox.refresh();
+        .then(data => {
+            gallery.insertAdjacentHTML('beforeend', createMarkup(data));
+            const galleryBox = new SimpleLightbox('.gallery a').refresh();
+            if (gallery.children.length >= data.totalHits) {
+                hideLoadMoreBtn();
+            }
+        });
 }
 
 
