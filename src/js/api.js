@@ -1,9 +1,9 @@
 import axios from 'axios';
-import { searchForm, gallery, API_KEY, apiAdress } from './refs.js'
+import { searchForm, gallery, API_KEY, apiAdress, loadMoreBtn, itemsPerPage, currentPage } from './refs.js'
 
 //  axios.defaults.baseURL = 'https://pixabay.com/api/';
 
-async function fetchPhotoByQ(q)  {
+async function fetchPhotoByQ(q, page)  {
     const config = {
     method: 'get',
     baseURL: apiAdress,
@@ -13,6 +13,8 @@ async function fetchPhotoByQ(q)  {
         image_type: "photo",
         orientation: "horizontal",
         safesearch: true,
+        page: page,
+        per_page: itemsPerPage,
     }
 }
     try {

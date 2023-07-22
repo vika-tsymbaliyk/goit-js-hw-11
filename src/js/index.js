@@ -1,17 +1,17 @@
 
 import { Report } from 'notiflix/build/notiflix-report-aio';
-import { searchForm, gallery, API_KEY, apiAdress } from './refs.js'
+import { searchForm, gallery, API_KEY, apiAdress, loadMoreBtn, itemsPerPage, currentPage, searchValue  } from './refs.js'
 import {fetchPhotoByQ} from './api.js'
 
 searchForm.addEventListener("submit", findPhoto);
+loadMoreBtn.addEventListener('click', onLoadMore);
 
 function findPhoto(event) {
     event.preventDefault();
-    // const formData = new FormData(searchForm);
-    // const searchQuery = formData.get("searchQuery");
     const { searchQuery } = event.currentTarget.elements;
-    console.log("Search query:", searchQuery.value);
-    fetchPhotoByQ(searchQuery.value)
+    searchValue = searchQuery.value;
+    currentPage = 1;
+    fetchPhotoByQ(searchQuery.value, currentPage)
         .then(data => {
             if (data.totalHits === 0) {
                 Report.failure(
@@ -27,12 +27,14 @@ function findPhoto(event) {
                 );
                 gallery.innerHTML = createMarkup(data)
             }
-})
+        })
         .catch(error => {
-            console.log(error);           
+            console.log(error);
             gallery.innerHTML = ''
         }
-        )
+    );
+    displayLoadMoreBtn();
+    
 };
 
 function createMarkup(data) {
@@ -56,4 +58,14 @@ function createMarkup(data) {
       </div>
     </div>`;
   }).join(''); 
+}
+
+function displayLoadMoreBtn() {
+  loadMoreBtn.style.display = 'block';
+}
+
+function onLoadMore() {
+    currentPage += 1;
+    fetchPhotoByQ(searchValue, currentPage)
+    .then(data => gallery.insertAdjacentHTML('beforeend', createMarkup(data)))
 }
