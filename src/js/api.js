@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { searchForm, gallery, API_KEY, apiAdress, loadMoreBtn, itemsPerPage, currentPage } from './refs.js'
+import { API_KEY, apiAdress, itemsPerPage} from './refs.js'
 
 //  axios.defaults.baseURL = 'https://pixabay.com/api/';
 

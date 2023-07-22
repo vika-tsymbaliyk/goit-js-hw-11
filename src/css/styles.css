@@ -60,7 +60,6 @@ img {
 }
 
 .photo-card {
-  width: calc((100% - 60px) / 4);
   border: 1px solid darkgray;
   border-radius: 2px;
   box-shadow: 2px 2px 2px lightgray;
@@ -91,4 +90,11 @@ img {
   border-radius: 50%;
   height: 88px;
   color: whitesmoke;
+}
+.gallery__link {
+  width: calc((100% - 60px) / 4);
+  display: block;
+  text-decoration: none;
+  color: black;
+  height: 100%;
 }

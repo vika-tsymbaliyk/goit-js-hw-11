@@ -1,6 +1,7 @@
-
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 import { Report } from 'notiflix/build/notiflix-report-aio';
-import { searchForm, gallery, API_KEY, apiAdress, loadMoreBtn, itemsPerPage, currentPage } from './refs.js'
+import { searchForm, gallery, loadMoreBtn, currentPage } from './refs.js'
 import {fetchPhotoByQ} from './api.js'
 
 searchForm.addEventListener("submit", findPhoto);
@@ -38,13 +39,13 @@ function findPhoto(event) {
         }
     );
     displayLoadMoreBtn();
-    
+    galleryLightBox.refresh();
 };
 
 function createMarkup(data) {
  return data.hits.map((item) => {
-    const { webformatURL, tags, likes, views, comments, downloads } = item;
-    return `<div class="photo-card">
+    const { webformatURL,largeImageURL, tags, likes, views, comments, downloads } = item;
+    return `<a href="${largeImageURL}" class = "gallery__link"><div class="photo-card">
       <img src="${webformatURL}" alt="${tags}" loading="lazy" width="300" height="200" class="card-image"/>
       <div class="info">
         <p class="info-item">
@@ -60,9 +61,12 @@ function createMarkup(data) {
           <b>Downloads:</b> ${downloads}
         </p>
       </div>
-    </div>`;
-  }).join(''); 
-}
+    </div></a>`;
+ }).join(''); 
+    
+};
+
+const galleryLightBox = new SimpleLightbox('.gallery a');
 
 function displayLoadMoreBtn() {
   loadMoreBtn.style.display = 'block';
@@ -74,5 +78,7 @@ function onLoadMore() {
     
     fetchPhotoByQ(searchValue, currentPage)
         .then(data => gallery.insertAdjacentHTML('beforeend', createMarkup(data)));
-    
+    galleryLightBox.refresh();
 }
+
+
