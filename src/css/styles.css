@@ -84,4 +84,10 @@ img {
 }
 .load-more {
   display: none;
+  margin: 0 auto;
+  background-color: mediumblue;
+  border: none;
+  border-radius: 50%;
+  height: 88px;
+  color: whitesmoke;
 }

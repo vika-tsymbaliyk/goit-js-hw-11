@@ -1,15 +1,19 @@
 
 import { Report } from 'notiflix/build/notiflix-report-aio';
-import { searchForm, gallery, API_KEY, apiAdress, loadMoreBtn, itemsPerPage, currentPage, searchValue  } from './refs.js'
+import { searchForm, gallery, API_KEY, apiAdress, loadMoreBtn, itemsPerPage, currentPage } from './refs.js'
 import {fetchPhotoByQ} from './api.js'
 
 searchForm.addEventListener("submit", findPhoto);
 loadMoreBtn.addEventListener('click', onLoadMore);
 
+let searchValue;
+
 function findPhoto(event) {
     event.preventDefault();
     const { searchQuery } = event.currentTarget.elements;
     searchValue = searchQuery.value;
+    console.log(searchValue);
+    console.log(searchQuery.value);
     currentPage = 1;
     fetchPhotoByQ(searchQuery.value, currentPage)
         .then(data => {
@@ -65,7 +69,10 @@ function displayLoadMoreBtn() {
 }
 
 function onLoadMore() {
+    console.log(searchValue);
     currentPage += 1;
+    
     fetchPhotoByQ(searchValue, currentPage)
-    .then(data => gallery.insertAdjacentHTML('beforeend', createMarkup(data)))
+        .then(data => gallery.insertAdjacentHTML('beforeend', createMarkup(data)));
+    
 }

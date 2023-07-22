@@ -7,6 +7,6 @@ const apiAdress = 'https://pixabay.com/api/';
 
 const itemsPerPage = 40; 
 let currentPage = 1;
-let searchValue;
 
-export {searchForm, gallery, API_KEY, apiAdress, loadMoreBtn, itemsPerPage, currentPage, searchValue}
+
+export {searchForm, gallery, API_KEY, apiAdress, loadMoreBtn, itemsPerPage, currentPage}
