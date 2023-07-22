@@ -1,24 +1,7 @@
-import axios from 'axios';
+
 import { Report } from 'notiflix/build/notiflix-report-aio';
-
-const searchForm = document.querySelector('.search-form');
-const gallery = document.querySelector('.gallery');
-
-const API_KEY = '38398823-58dfcc6099d652ecdba70c123';
-const apiAdress = 'https://pixabay.com/api/';
-
-//  axios.defaults.baseURL = 'https://pixabay.com/api/';
-
-async function fetchPhotoByQ(q) {
-    return axios.get(`${apiAdress}?key=${API_KEY}&q=${q}&image_type=photo&orientation=horizontal&safesearch=true`)
-        .then(response => {
-            if (response.status !== 200) {
-             throw new Error(response.statusText);
-            }
-            return response.data;
-        })
-       
-};
+import { searchForm, gallery, API_KEY, apiAdress } from './refs.js'
+import {fetchPhotoByQ} from './api.js'
 
 searchForm.addEventListener("submit", findPhoto);
 
