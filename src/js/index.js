@@ -10,6 +10,8 @@ loadMoreBtn.addEventListener('click', onLoadMore);
 let searchValue;
 let currentPage = 1;
 
+const galleryBox = new SimpleLightbox('.gallery a');
+
 function findPhoto(event) {
     event.preventDefault();
     const { searchQuery } = event.currentTarget.elements;
@@ -25,16 +27,19 @@ function findPhoto(event) {
                     'Okay',
                 );
             } else {
+                
                 Report.success(
                     'Great!',
                     `We found ${data.totalHits} images`,
                     'Okay',
                 );
                 gallery.innerHTML = createMarkup(data);
-                const galleryBox = new SimpleLightbox('.gallery a').refresh();
+                // const galleryBox = new SimpleLightbox('.gallery a').refresh();
+                galleryBox.refresh();
                 if (data.hits.length < data.totalHits) {
                 displayLoadMoreBtn();
                 } else {
+                 
                     Report.info(
                     'Info',
                     `We're sorry, but you've reached the end of search results.`,
@@ -99,7 +104,8 @@ function onLoadMore() {
     fetchPhotoByQ(searchValue, currentPage)
         .then(data => {
             gallery.insertAdjacentHTML('beforeend', createMarkup(data));
-            const galleryBox = new SimpleLightbox('.gallery a').refresh();
+            // const galleryBox = new SimpleLightbox('.gallery a').refresh();
+            galleryBox.refresh();
             if (gallery.children.length >= data.totalHits) {
                 hideLoadMoreBtn();
                 Report.info(
